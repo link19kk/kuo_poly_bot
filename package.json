@@ -9,6 +9,7 @@
     "script:order-check": "tsx ./script/001-Order_check.ts"
   },
   "dependencies": {
+    "@catalyst-team/poly-sdk": "file:deps/sdk.tgz",
     "@google/genai": "^1.39.0",
     "dotenv": "^17.2.3",
     "grammy": "^1.32.0"

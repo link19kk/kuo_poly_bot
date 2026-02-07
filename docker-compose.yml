@@ -1,0 +1,21 @@
+services:
+  kuo-poly-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: kuo-poly-bot
+    restart: always
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./logs:/app/logs
+    # Uncomment if your bot needs network access configuration
+    # networks:
+    #   - bot-network
+
+# Uncomment if you need a custom network
+# networks:
+#   bot-network:
+#     driver: bridge
