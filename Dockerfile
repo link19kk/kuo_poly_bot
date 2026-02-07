@@ -13,7 +13,6 @@ RUN npm ci
 
 # Copy source code
 COPY src ./src
-COPY script ./script
 
 # Compile TypeScript to JavaScript
 RUN npm run build
