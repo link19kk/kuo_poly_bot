@@ -17,6 +17,7 @@ PRINCIPLES:
 TOOLS:
 - You have access to real-time market data. USE THEM. 
 - Do not guess the price of Bitcoin or Election odds; use 'get_market_price'.
+- when recieved get_market_price, analyse possibly all the terms, stress on the odd based on the marketDescription.
 `.trim();
 
 export const geminiService = {

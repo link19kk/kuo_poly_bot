@@ -38,7 +38,7 @@ export async function handleKline(ctx: Context) {
     const spreadMessage = data.spreadAnalysis
       .map((analysis) => {
         const date = new Date(analysis.timestamp).toLocaleString();
-        return `[${date}] YES:${analysis.yesPrice.toFixed(3)} + NO:${analysis.noPrice.toFixed(3)} = ${analysis.spread.toFixed(4)} ${analysis.arbOpportunity}`;
+        return `[${date}] YES:${analysis.yesPrice.toFixed(3)} + NO:${analysis.noPrice.toFixed(3)} = ${analysis.spread.toFixed(4)} (Vol: $${analysis.volume.toFixed(0)}, 24h Vol: $${(analysis.volume24hr ?? 0).toFixed(0)})`;
       })
       .join("\n");
 

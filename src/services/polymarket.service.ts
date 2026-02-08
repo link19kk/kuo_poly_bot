@@ -60,15 +60,13 @@ export class PolymarketService {
 
     // 2. Fetch trade history
     const trades = await sdk.dataApi.getTradesByMarket(market.conditionId, 500);
+    const marketDescription = `Market: ${market.question} (Description: ${market.description})`;
+
     console.log('Found ' + trades.length + ' trades');
 
     if (trades.length === 0) {
       return { error: 'No trades found for this market' };
     }
-
-    // 3. Get token info
-    const yesToken = market.tokens.find(t => t.outcome === 'Yes');
-    const noToken = market.tokens.find(t => t.outcome === 'No');
 
     // 4. Separate trades by token (YES vs NO)
     const yesTrades = trades.filter((t) => t.outcomeIndex === 0 || t.outcome === 'Yes');
@@ -94,9 +92,9 @@ export class PolymarketService {
       if (noCandle) lastNo = noCandle.close;
 
       const spread = lastYes + lastNo;
-      const arbOpportunity = spread < 1 ? 'LONG ARB' : spread > 1 ? 'SHORT ARB' : 'NEUTRAL';
+      // const arbOpportunity = spread < 1 ? 'LONG ARB' : spread > 1 ? 'SHORT ARB' : 'NEUTRAL';
 
-      return { timestamp: ts, yesPrice: lastYes, noPrice: lastNo, spread, arbOpportunity };
+      return { timestamp: ts, yesPrice: lastYes, noPrice: lastNo, spread, description: marketDescription, volume: market.volume, volume24hr: market.volume24hr, yesTrend: yesCandles.slice(-10), noTrend: noCandles.slice(-10) };
     });
 
     return {
