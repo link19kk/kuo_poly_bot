@@ -9,7 +9,7 @@
  * Run: npx ts-node examples/04-kline-aggregation.ts
  */
 
-const MarketConditionId = '0x634bd1314c3044a80bf9eccf703c15eca586132e9db0d3fb2c8eb0136cfab88d'; 
+const MarketConditionId = 'what-price-will-bitcoin-hit-in-february-2026'; 
 const MarketSlug = ''; // Optional: use slug instead of condition ID
 
 
