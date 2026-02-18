@@ -8,7 +8,21 @@ if (!token) {
 	throw new Error("Missing TELEGRAM_TOKEN (or BOT_TOKEN) in environment.");
 }
 
-const bot = new Bot(token);
+// Add the 'api' config object to the Bot constructor
+const bot = new Bot(token, {
+    client: {
+        environment: "prod",
+    },
+});
+
+// Use the 'api' plugin to set global parse_mode
+bot.api.config.use((prev, method, payload, signal) => {
+    if (!payload || !("parse_mode" in payload)) {
+        // @ts-ignore
+        payload.parse_mode = "HTML";
+    }
+    return prev(method, payload, signal);
+});
 
 bot.on("message:text", async (ctx) => {
 	const text = ctx.message.text?.trim();
