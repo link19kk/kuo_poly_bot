@@ -34,12 +34,43 @@ bot.on("message:text", async (ctx) => {
 		return handleKline(ctx);
 	}
 
+	// ... existing code above ...
+
+	let processingMsg;
 	try {
+		// 1. Send the temporary "Processing" message
+		processingMsg = await ctx.reply("⏳ Processing your request...");
+
+		// Optional but highly recommended: Show the "typing..." indicator at the top of the screen
+		await ctx.replyWithChatAction("typing");
+
+		// 2. Call your AI service
 		const reply = await geminiService.generateChatResponse(text);
-		return ctx.reply(reply);
+
+		// 3. Edit the temporary message with the actual AI response
+		return ctx.api.editMessageText(
+			ctx.chat.id,
+			processingMsg.message_id,
+			reply,
+			// Keep your global parse_mode (HTML) active for the edit
+			{ parse_mode: "HTML" }
+		);
+
 	} catch (error) {
 		const errorMsg = error instanceof Error ? error.message : "Unknown error";
-		return ctx.reply(`❌ Gemini error: ${errorMsg}`);
+		const formattedError = `❌ Gemini error: ${errorMsg}`;
+
+		// If it failed *after* we sent the processing message, edit it to show the error
+		if (processingMsg) {
+			return ctx.api.editMessageText(
+				ctx.chat.id,
+				processingMsg.message_id,
+				formattedError
+			);
+		}
+
+		// Fallback if it failed before sending the processing message
+		return ctx.reply(formattedError);
 	}
 });
 
