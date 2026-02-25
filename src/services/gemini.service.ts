@@ -42,7 +42,7 @@ export const geminiService = {
     try {
       // 1. Create the Chat Session directly from the client
       const chat = aiClient.chats.create({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash",
         config: {
           systemInstruction: SYSTEM_PROMPT,
           tools: agentTools,
